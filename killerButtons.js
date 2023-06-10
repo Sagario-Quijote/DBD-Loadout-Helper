@@ -4,8 +4,6 @@ const body = document.querySelector("body");
 const killerContainer = document.querySelector("killerContainer");
 const overlay = document.querySelector(".overlay");
 const killerPopup = document.querySelector(".killerPopup");
-const loadout = document.querySelector(".loadout");
-const loadoutTitle = document.querySelector(".loadoutTitle");
 const killerTitle = document.querySelector(".killerTitle");
 const killerQuote = document.querySelector(".killerQuote");
 
@@ -16,6 +14,7 @@ let isOverlayOn = false;
 overlay.addEventListener("click", () => {
   killers.forEach((killer) => {
     activatePopup();
+    removeLoadouts();
   });
   isOverlayOn = false;
 });
@@ -26,6 +25,7 @@ killers.forEach((killer) => {
   killer.addEventListener("click", () => {
     if (!isOverlayOn) {
       activatePopup();
+      createLoadouts();
       selectedKillerName = killer.getAttribute("alt");
       killerSelected(selectedKillerName);
       isOverlayOn = true;
@@ -41,16 +41,41 @@ function activatePopup() {
   overlay.classList.toggle("active");
   killerTitle.classList.toggle("active");
   killerQuote.classList.toggle("active");
-  for (let i = 0; i >= 2; i++) {
-    const 
-  }
+}
 
-  loadouts.forEach(function (loadout) {
-    loadout.classList.toggle("active");
-  });
-  loadoutTitles.forEach(function (loadoutTitle) {
-    loadoutTitle.classList.toggle("active");
-  });
+//Two bottom functions creates and removes the loadouts.
+function createLoadouts() {
+  for (let i = 1; i <= 3; i++) {
+    let loadoutTitle = document.createElement("div");
+    let loadout = document.createElement("div"); 
+    loadout.className = "loadout";
+    loadout.id = "loadout" + i;
+    loadoutTitle.className = "loadoutTitle";
+    loadoutTitle.id = "loadoutTitle" + i;
+    killerPopup.appendChild(loadoutTitle);
+    killerPopup.appendChild(loadout);
+  }
+  const loadouts = document.querySelectorAll(".loadout");
+  const loadoutTitles = document.querySelectorAll(".loadoutTitles");
+  loadouts.forEach(loadout => {
+    for (let i = 1; i <= 4; i++) {
+      let perk = document.createElement("div");
+      perk.className = "perk";
+      perk.id = "perk" + i;
+      loadout.appendChild(perk);
+    }
+  })
+}
+
+function removeLoadouts() {
+  const loadouts = document.querySelectorAll(".loadout");
+  const loadoutTitles = document.querySelectorAll(".loadoutTitle");
+  loadouts.forEach(loadout => {
+    loadout.remove();
+  })
+  loadoutTitles.forEach(loadoutTitle => {
+    loadoutTitle.remove();
+  })
 }
 
 //Gives information based on killer portrait clicked.
